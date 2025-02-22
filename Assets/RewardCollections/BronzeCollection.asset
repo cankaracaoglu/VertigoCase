@@ -23,10 +23,10 @@ MonoBehaviour:
   - UI_icon_chest_silver_nolight
   rewardAmount:
   - x10
+  - x100k
   - x1
+  - x2
   - x1
+  - x3
   - x1
-  - x1
-  - x1
-  - x1
-  - x1
+  - x5
