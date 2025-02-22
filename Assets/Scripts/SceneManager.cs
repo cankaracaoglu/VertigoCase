@@ -4,15 +4,29 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private RewardManager rewardManager;
     [SerializeField] private TextMeshProUGUI countText;
+    [SerializeField] private GameObject wheelImage;
 
+    [Header("Reward Collections")]
+    [SerializeField] private RewardCollection bronzeCollection;
+    [SerializeField] private RewardCollection silverCollection;
+    [SerializeField] private RewardCollection goldCollection;
+
+    [Header("Wheel Sprites")]
+    [SerializeField] private Sprite bronzeWheel;
+    [SerializeField] private Sprite silverWheel;
+    [SerializeField] private Sprite goldWheel;
+
+
+    [SerializeField] private float moveDuration = 1.5f; // Duration of movement
 
     private int rewardCount = 0;
-    [SerializeField] private float moveDuration = 1.5f; // Duration of movement
     private float scaleMultiplier = 5f; // How big the reward gets before moving up
 
     public float MoveDuration { get { return moveDuration; }}
@@ -29,17 +43,48 @@ public class SceneManager : MonoBehaviour
         
     }
 
-    public int DetectWinningReward(double angle)
+    public void DetectWinningReward(double angle)
     {
         angle = (angle + 22.5f) % 360; // Offset to align with reward slices
         int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
         Debug.Log("Reward Index: " + rewardIndex);
         rewardCount++;
         AnimateReward(rewardManager.createdRewards[rewardIndex]);
-        return rewardIndex;
+        
+        
+    }
+
+    public void CheckForState()
+    {
+        if (rewardCount == 5)
+        {
+            rewardManager.rewardCollection = silverCollection;
+            rewardManager.AssignRewards();
+            wheelImage.GetComponent<Image>().sprite = silverWheel;
+        }
+        else if (rewardCount == 30)
+        {
+            rewardManager.rewardCollection = goldCollection;
+            rewardManager.AssignRewards();
+            wheelImage.GetComponent<Image>().sprite = goldWheel;
+        }
+        else
+        {
+            rewardManager.rewardCollection = bronzeCollection;
+            rewardManager.AssignRewards();
+            wheelImage.GetComponent<Image>().sprite = bronzeWheel;
+        }
+
+    }
+    private void UpdateCountText()
+    {
+        countText.text = "Gained Rewards : " + rewardCount;
     }
 
 
+
+
+    #region Reward Animation
     public void AnimateReward(GameObject reward)
     {
         StartCoroutine(AnimateRewardSequence(reward));
@@ -64,10 +109,7 @@ public class SceneManager : MonoBehaviour
 
     }
 
-    private void UpdateCountText()
-    {
-        countText.text = "Gained Rewards : " + rewardCount;
-    }
+
 
     private IEnumerator MoveAndScale(GameObject reward, Vector3 startPos, Vector3 endPos, float targetScale, float duration)
     {
@@ -88,6 +130,8 @@ public class SceneManager : MonoBehaviour
         reward.transform.position = endPos;
         reward.transform.localScale = endScale;
     }
+
+    #endregion
 
 
 

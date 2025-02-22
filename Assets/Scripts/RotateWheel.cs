@@ -51,6 +51,8 @@ public class RotateWheel : MonoBehaviour
 
         yield return new WaitForSeconds(sceneManager.MoveDuration); // Wait for the animation of the winning reward to complete
 
+        sceneManager.CheckForState();
+
         isSpinning = false;
         spinButton.interactable = true; // Enable the button again
     }

@@ -21,7 +21,7 @@ public class RewardManager : MonoBehaviour
         AssignRewards();
     }
 
-    void AssignRewards()
+    public void AssignRewards()
     {
 
         if (rewardCollection == null || rewardCollection.rewardNames.Count == 0) return;
@@ -32,6 +32,9 @@ public class RewardManager : MonoBehaviour
             if (slot.childCount > 0)
                 Destroy(slot.GetChild(0).gameObject);
         }
+
+        // Clear the list of created rewards
+        createdRewards = new List<GameObject>();
 
         // Assign new rewards
         for (int i = 0; i < rewardSlots.Length; i++)
