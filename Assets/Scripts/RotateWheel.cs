@@ -5,7 +5,7 @@ using System;
 
 public class RotateWheel : MonoBehaviour
 {
-    private SceneManager sceneManager;  
+    private SceneManager sceneManager;
 
     public float minSpinTime = 2f; // Minimum spin duration
     public float maxSpinTime = 4f; // Maximum spin duration
@@ -49,10 +49,9 @@ public class RotateWheel : MonoBehaviour
 
         sceneManager.DetectWinningReward(finalAngle);
 
+        yield return new WaitForSeconds(sceneManager.MoveDuration); // Wait for the animation of the winning reward to complete
+
         isSpinning = false;
         spinButton.interactable = true; // Enable the button again
     }
-
-    
-
 }

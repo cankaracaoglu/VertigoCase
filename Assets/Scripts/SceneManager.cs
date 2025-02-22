@@ -9,10 +9,13 @@ public class SceneManager : MonoBehaviour
 {
     [SerializeField] private RewardManager rewardManager;
     [SerializeField] private TextMeshProUGUI countText;
-    private int rewardCount = 0;
 
-    private float moveDuration = 1.5f; // Duration of movement
+
+    private int rewardCount = 0;
+    [SerializeField] private float moveDuration = 1.5f; // Duration of movement
     private float scaleMultiplier = 5f; // How big the reward gets before moving up
+
+    public float MoveDuration { get { return moveDuration; }}
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +31,7 @@ public class SceneManager : MonoBehaviour
 
     public int DetectWinningReward(double angle)
     {
-        angle = angle + 22.5f % 360; // Offset to align with reward slices
+        angle = (angle + 22.5f) % 360; // Offset to align with reward slices
         int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
         Debug.Log("Reward Index: " + rewardIndex);
         rewardCount++;

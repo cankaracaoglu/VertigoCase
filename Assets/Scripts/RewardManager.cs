@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.U2D;
+using TMPro;
 
 
 public class RewardManager : MonoBehaviour
@@ -41,6 +42,7 @@ public class RewardManager : MonoBehaviour
             // Instantiate reward icon
             GameObject reward = Instantiate(rewardPrefab, rewardSlots[i]);
             reward.transform.localPosition = Vector3.zero; // Center inside slot
+            reward.GetComponentInChildren<TextMeshProUGUI>().text = rewardCollection.rewardAmount[i];
             createdRewards.Add(reward);
 
             // Assign a random sprite
