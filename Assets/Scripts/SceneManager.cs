@@ -28,7 +28,7 @@ public class SceneManager : MonoBehaviour
 
     public int DetectWinningReward(double angle)
     {
-        angle = angle + 22.5f; // Offset to align with reward slices
+        angle = angle + 22.5f % 360; // Offset to align with reward slices
         int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
         Debug.Log("Reward Index: " + rewardIndex);
         rewardCount++;
