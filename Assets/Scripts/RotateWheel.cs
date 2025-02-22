@@ -40,12 +40,21 @@ public class RotateWheel : MonoBehaviour
 
         // Snap to the closest final position
         float finalAngle = transform.eulerAngles.z;
-        Debug.Log("Final Angle before: " + finalAngle);
         finalAngle = Mathf.Round(finalAngle / 10f) * 10f; // Assuming 8 slices of 45° each
         Debug.Log("Final Angle after: " + finalAngle);
         transform.rotation = Quaternion.Euler(0, 0, finalAngle);
 
+        DetectWinningReward(finalAngle);
+
         isSpinning = false;
         spinButton.interactable = true; // Enable the button again
     }
+
+    private void DetectWinningReward(double angle)
+    {
+        angle = angle + 22.5f; // Offset to align with reward slices
+        int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
+        Debug.Log("Reward Index: " + rewardIndex);
+    }
+
 }

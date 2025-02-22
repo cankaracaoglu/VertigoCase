@@ -8,10 +8,10 @@ public class RewardManager : MonoBehaviour
 {
     public GameObject rewardPrefab;  // Prefab for reward icons
     public Transform[] rewardSlots;  // Array of reward slots (set in Inspector)
-    //public Sprite[] rewardSprites;   // Different reward icons
 
     public SpriteAtlas rewardAtlas;  // SpriteAtlas for rewards
-    public string[] rewardSpriteNames;     // Names of sprites in atlas
+
+    public RewardCollection rewardCollection; // Collection of rewards
 
     void Start()
     {
@@ -20,6 +20,9 @@ public class RewardManager : MonoBehaviour
 
     void AssignRewards()
     {
+
+        if (rewardCollection == null || rewardCollection.rewardNames.Count == 0) return;
+
         // Clear existing rewards
         foreach (Transform slot in rewardSlots)
         {
@@ -30,17 +33,17 @@ public class RewardManager : MonoBehaviour
         // Assign new rewards
         for (int i = 0; i < rewardSlots.Length; i++)
         {
+            if (i >= rewardCollection.rewardNames.Count) break; // Prevent overflow
+
+            string rewardName = rewardCollection.rewardNames[i];
             // Instantiate reward icon
             GameObject reward = Instantiate(rewardPrefab, rewardSlots[i]);
             reward.transform.localPosition = Vector3.zero; // Center inside slot
 
             // Assign a random sprite
             Image rewardImage = reward.GetComponent<Image>();
-            // Pick a random sprite name from the atlas
-            string spriteName = rewardSpriteNames[i];
-
             // Load the sprite from the atlas
-            rewardImage.sprite = rewardAtlas.GetSprite(spriteName);
+            rewardImage.sprite = rewardAtlas.GetSprite(rewardName);
 
             // Dynamically resize reward to fit slot
             ResizeReward(rewardImage);
