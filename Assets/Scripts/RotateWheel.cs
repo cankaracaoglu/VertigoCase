@@ -5,6 +5,8 @@ using System;
 
 public class RotateWheel : MonoBehaviour
 {
+    private SceneManager sceneManager;  
+
     public float minSpinTime = 2f; // Minimum spin duration
     public float maxSpinTime = 4f; // Maximum spin duration
     public float deceleration = 100f; // Controls how fast the wheel slows down
@@ -15,6 +17,7 @@ public class RotateWheel : MonoBehaviour
 
     void Start()
     {
+        sceneManager = FindObjectOfType<SceneManager>();// Find the SceneManager in the scene
         spinButton.onClick.AddListener(() => StartCoroutine(SpinWheel()));
     }
 
@@ -44,17 +47,12 @@ public class RotateWheel : MonoBehaviour
         Debug.Log("Final Angle after: " + finalAngle);
         transform.rotation = Quaternion.Euler(0, 0, finalAngle);
 
-        DetectWinningReward(finalAngle);
+        sceneManager.DetectWinningReward(finalAngle);
 
         isSpinning = false;
         spinButton.interactable = true; // Enable the button again
     }
 
-    private void DetectWinningReward(double angle)
-    {
-        angle = angle + 22.5f; // Offset to align with reward slices
-        int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
-        Debug.Log("Reward Index: " + rewardIndex);
-    }
+    
 
 }

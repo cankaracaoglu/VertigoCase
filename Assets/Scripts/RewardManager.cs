@@ -13,6 +13,8 @@ public class RewardManager : MonoBehaviour
 
     public RewardCollection rewardCollection; // Collection of rewards
 
+    public List<GameObject> createdRewards;
+
     void Start()
     {
         AssignRewards();
@@ -39,6 +41,7 @@ public class RewardManager : MonoBehaviour
             // Instantiate reward icon
             GameObject reward = Instantiate(rewardPrefab, rewardSlots[i]);
             reward.transform.localPosition = Vector3.zero; // Center inside slot
+            createdRewards.Add(reward);
 
             // Assign a random sprite
             Image rewardImage = reward.GetComponent<Image>();
