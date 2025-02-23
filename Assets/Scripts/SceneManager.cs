@@ -11,6 +11,7 @@ public class SceneManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private RewardManager rewardManager;
+    [SerializeField] private RewardPanelManager rewardPanelManager;
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private GameObject wheelImage;
     [SerializeField] private GameObject failPanel;
@@ -74,7 +75,7 @@ public class SceneManager : MonoBehaviour
         }
         rewardCount++;
         //AnimateReward(rewardManager.createdRewards[rewardIndex]);
-        AnimateReward2(rewardManager.createdRewards[rewardIndex]);
+        AnimateReward(rewardManager.createdRewards[rewardIndex]);
 
 
 
@@ -82,13 +83,13 @@ public class SceneManager : MonoBehaviour
 
     public void CheckForState()
     {
-        if (rewardCount % 5 == 0)
+        if (rewardCount % 5 == 0 && rewardCount != 0)
         {
             rewardManager.rewardCollection = silverCollection;
             rewardManager.AssignRewards();
             wheelImage.GetComponent<Image>().sprite = silverWheel;
         }
-        else if (rewardCount % 30 == 0)
+        else if (rewardCount % 30 == 0 && rewardCount != 0)
         {
             rewardManager.rewardCollection = goldCollection;
             rewardManager.AssignRewards();
@@ -104,23 +105,27 @@ public class SceneManager : MonoBehaviour
     }
     private void UpdateCountText()
     {
-        countText.text = "Gained Rewards : " + rewardCount;
+        countText.text = rewardCount.ToString();
     }
 
 
-    public void AnimateReward2(GameObject reward)
+    public void AnimateReward(GameObject reward)
     {
         // Create a copy of the reward
         GameObject copyReward = Instantiate(reward, reward.transform.position, Quaternion.identity);
-        copyReward.transform.SetParent(rewardPanel.transform); // Set parent
+        copyReward.transform.SetParent(reward.transform.parent); // Set parent
 
         Vector3 startPos = reward.transform.position;
-        Vector3 centerPos = new Vector3(960, 540, 0);
+
+        // Calculate the center position of the rewardPanel
+        RectTransform rewardPanelRect = rewardManager.GetComponent<RectTransform>();
+        Vector3 centerPos = rewardPanelRect.TransformPoint(rewardPanelRect.rect.center);
+
         Vector3 endPos = rewardPanel.transform.position;
 
-        Vector3 startScale = copyReward.transform.localScale;
+        Vector3 startScale = Vector3.one;
         Vector3 centerScale = startScale * scaleMultiplier;
-        Vector3 endScale = startScale; // Back to original scale
+        Vector3 endScale = startScale * 2.0f; // Back to original scale
 
         // Create a sequence
         DG.Tweening.Sequence sequence = DOTween.Sequence();
@@ -138,61 +143,10 @@ public class SceneManager : MonoBehaviour
         {
             //Destroy(copyReward);
             UpdateCountText();
+            rewardPanelManager.AddReward(copyReward);
         });
 
         // Play the sequence
         sequence.Play();
     }
-
-    #region Reward Animation
-    public void AnimateReward(GameObject reward)
-    {
-        StartCoroutine(AnimateRewardSequence(reward));
-    }
-
-    private IEnumerator AnimateRewardSequence(GameObject reward)
-    {
-        Vector3 startPos = reward.transform.position;
-        Vector3 centerPos = new Vector3(960, 540, 0);
-        Vector3 endPos = countText.transform.position;
-
-        GameObject copyReward = Instantiate(reward, reward.transform.position, Quaternion.identity);
-        copyReward.transform.SetParent(countText.transform);
-        // Step 1: Move to Center & Scale Up
-        yield return MoveAndScale(copyReward, startPos, centerPos, scaleMultiplier, moveDuration);
-
-        // Step 2: Move to Top
-        yield return MoveAndScale(copyReward, centerPos, endPos, 1f, moveDuration / 2f);
-
-        Destroy(copyReward);
-        UpdateCountText();
-
-    }
-
-
-
-    private IEnumerator MoveAndScale(GameObject reward, Vector3 startPos, Vector3 endPos, float targetScale, float duration)
-    {
-        float time = 0;
-        Vector3 startScale = reward.transform.localScale;
-        Vector3 endScale = startScale * targetScale;
-
-        while (time < duration)
-        {
-            float t = time / duration;
-            reward.transform.position = Vector3.Lerp(startPos, endPos, t);
-            reward.transform.localScale = Vector3.Lerp(startScale, endScale, t);
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure final position & scale are exact
-        reward.transform.position = endPos;
-        reward.transform.localScale = endScale;
-    }
-
-    #endregion
-
-
-
 }
