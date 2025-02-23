@@ -52,6 +52,8 @@ public class RewardManager : MonoBehaviour
             Image rewardImage = reward.GetComponent<Image>();
             // Load the sprite from the atlas
             rewardImage.sprite = rewardAtlas.GetSprite(rewardName);
+            rewardImage.maskable = false; // Prevent clipping
+            rewardImage.raycastTarget = false; // Prevent blocking raycasts
 
             // Dynamically resize reward to fit slot
             ResizeReward(rewardImage);
