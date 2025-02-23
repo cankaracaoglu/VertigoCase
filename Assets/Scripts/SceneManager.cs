@@ -12,6 +12,7 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private RewardManager rewardManager;
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private GameObject wheelImage;
+    [SerializeField] private GameObject failPanel;
 
     [Header("Reward Collections")]
     [SerializeField] private RewardCollection bronzeCollection;
@@ -23,6 +24,9 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private Sprite silverWheel;
     [SerializeField] private Sprite goldWheel;
 
+    [Header("Buttons")]
+    [SerializeField] private Button retryButton;
+    [SerializeField] private Button giveUpButton;
 
     [SerializeField] private float moveDuration = 1.5f; // Duration of movement
 
@@ -34,13 +38,20 @@ public class SceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        retryButton.onClick.AddListener(() => Retry());
+        giveUpButton.onClick.AddListener(() => GiveUp());
     }
 
-    // Update is called once per frame
-    void Update()
+    void Retry()
     {
-        
+        failPanel.SetActive(false);
+        rewardCount = 0;
+        UpdateCountText();
+    }
+
+    void GiveUp()
+    {
+        Application.Quit();
     }
 
     public void DetectWinningReward(double angle)
@@ -48,6 +59,12 @@ public class SceneManager : MonoBehaviour
         angle = (angle + 22.5f) % 360; // Offset to align with reward slices
         int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
         Debug.Log("Reward Index: " + rewardIndex);
+
+        if (rewardIndex > 3)
+        {
+            failPanel.SetActive(true);
+            return;
+        }
         rewardCount++;
         AnimateReward(rewardManager.createdRewards[rewardIndex]);
         
