@@ -60,7 +60,7 @@ public class SceneManager : MonoBehaviour
         int rewardIndex = (int)(angle / 45f); // Assuming 8 slices of 45° each
         Debug.Log("Reward Index: " + rewardIndex);
 
-        if (rewardIndex > 3)
+        if (rewardIndex == rewardManager.rewardCollection.bombIndex)
         {
             failPanel.SetActive(true);
             return;
@@ -73,13 +73,13 @@ public class SceneManager : MonoBehaviour
 
     public void CheckForState()
     {
-        if (rewardCount == 5)
+        if (rewardCount % 5 == 0)
         {
             rewardManager.rewardCollection = silverCollection;
             rewardManager.AssignRewards();
             wheelImage.GetComponent<Image>().sprite = silverWheel;
         }
-        else if (rewardCount == 30)
+        else if (rewardCount % 30 == 0)
         {
             rewardManager.rewardCollection = goldCollection;
             rewardManager.AssignRewards();
