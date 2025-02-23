@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533f4a920b0db2a49bc4059a9f131299, type: 3}
   m_Name: BronzeCollection
   m_EditorClassIdentifier: 
+  bombIndex: 7
   rewardNames:
   - UI_icon_chest_standart_nolight
   - UI_icon_cash
@@ -20,7 +21,7 @@ MonoBehaviour:
   - UI_Icon_Renders_tier2_rifle
   - UI_icon_chest_small_noligt
   - ui_icon_baseball_cap_easter
-  - UI_icon_chest_silver_nolight
+  - ui_card_icon_death
   rewardAmount:
   - x10
   - x100k
@@ -29,4 +30,4 @@ MonoBehaviour:
   - x1
   - x3
   - x1
-  - x5
+  - DEATH

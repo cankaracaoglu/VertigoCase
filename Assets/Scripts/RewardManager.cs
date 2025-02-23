@@ -67,7 +67,7 @@ public class RewardManager : MonoBehaviour
         float height = rewardImage.sprite.rect.height;
 
         // Define a max size (prevents large rewards from breaking layout)
-        float maxSize = 60f;  // Adjust as needed
+        float maxSize = 75f;  // Adjust as needed
 
         // Scale down proportionally
         float scaleFactor = maxSize / Mathf.Max(width, height);
