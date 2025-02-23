@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 533f4a920b0db2a49bc4059a9f131299, type: 3}
   m_Name: SilverCollection
   m_EditorClassIdentifier: 
+  bombIndex: -1
   rewardNames:
   - UI_icon_chest_standart_nolight
   - UI_icon_cash
