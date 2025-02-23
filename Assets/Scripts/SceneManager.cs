@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private GameObject wheelImage;
     [SerializeField] private GameObject failPanel;
+    [SerializeField] private GameObject rewardPanel;
 
     [Header("Reward Collections")]
     [SerializeField] private RewardCollection bronzeCollection;
@@ -45,6 +47,11 @@ public class SceneManager : MonoBehaviour
     void Retry()
     {
         failPanel.SetActive(false);
+        //Clear children of reward panel
+        foreach (Transform child in rewardPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
         rewardCount = 0;
         UpdateCountText();
     }
@@ -66,9 +73,11 @@ public class SceneManager : MonoBehaviour
             return;
         }
         rewardCount++;
-        AnimateReward(rewardManager.createdRewards[rewardIndex]);
-        
-        
+        //AnimateReward(rewardManager.createdRewards[rewardIndex]);
+        AnimateReward2(rewardManager.createdRewards[rewardIndex]);
+
+
+
     }
 
     public void CheckForState()
@@ -99,7 +108,41 @@ public class SceneManager : MonoBehaviour
     }
 
 
+    public void AnimateReward2(GameObject reward)
+    {
+        // Create a copy of the reward
+        GameObject copyReward = Instantiate(reward, reward.transform.position, Quaternion.identity);
+        copyReward.transform.SetParent(rewardPanel.transform); // Set parent
 
+        Vector3 startPos = reward.transform.position;
+        Vector3 centerPos = new Vector3(960, 540, 0);
+        Vector3 endPos = rewardPanel.transform.position;
+
+        Vector3 startScale = copyReward.transform.localScale;
+        Vector3 centerScale = startScale * scaleMultiplier;
+        Vector3 endScale = startScale; // Back to original scale
+
+        // Create a sequence
+        DG.Tweening.Sequence sequence = DOTween.Sequence();
+
+        // Step 1: Move to center & scale up
+        sequence.Append(copyReward.transform.DOMove(centerPos, moveDuration).SetEase(Ease.InOutQuad))
+                .Join(copyReward.transform.DOScale(centerScale, moveDuration).SetEase(Ease.InOutQuad));
+
+        // Step 2: Move to top (countText position) & scale down
+        sequence.Append(copyReward.transform.DOMove(endPos, moveDuration / 2f).SetEase(Ease.InOutQuad))
+                .Join(copyReward.transform.DOScale(endScale, moveDuration / 2f).SetEase(Ease.InOutQuad));
+
+        // Step 3: Destroy the object and update count text
+        sequence.OnComplete(() =>
+        {
+            //Destroy(copyReward);
+            UpdateCountText();
+        });
+
+        // Play the sequence
+        sequence.Play();
+    }
 
     #region Reward Animation
     public void AnimateReward(GameObject reward)
