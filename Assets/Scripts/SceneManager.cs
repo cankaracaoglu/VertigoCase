@@ -86,29 +86,30 @@ public class SceneManager : MonoBehaviour
     {
         if (rewardCount % 5 == 0 && rewardCount != 0)
         {
-            wheel.transform.DOScale(Vector3.zero, 1.5f).OnComplete(() =>
-            {
-                rewardManager.rewardCollection = silverCollection;
-                rewardManager.AssignRewards();
-                wheelImageBase.GetComponent<Image>().sprite = silverWheel;
-                wheel.transform.DOScale(Vector3.one, 1.5f);
-                
-            });
-            
+            AnimateZoneTransition(silverCollection, silverWheel);
+
         }
         else if (rewardCount % 30 == 0 && rewardCount != 0)
         {
-            rewardManager.rewardCollection = goldCollection;
-            rewardManager.AssignRewards();
-            wheelImageBase.GetComponent<Image>().sprite = goldWheel;
+            AnimateZoneTransition(goldCollection, goldWheel);
         }
-        else
+        else if (rewardCount % 5 == 1)
         {
-            rewardManager.rewardCollection = bronzeCollection;
-            rewardManager.AssignRewards();
-            wheelImageBase.GetComponent<Image>().sprite = bronzeWheel;
+            AnimateZoneTransition(bronzeCollection, bronzeWheel);
         }
 
+    }
+
+    private void AnimateZoneTransition(RewardCollection collection, Sprite wheelSprite)
+    {
+        wheel.transform.DOScale(Vector3.zero, 1.5f).OnComplete(() =>
+        {
+            rewardManager.rewardCollection = collection;
+            rewardManager.AssignRewards();
+            wheelImageBase.GetComponent<Image>().sprite = wheelSprite;
+            wheel.transform.DOScale(Vector3.one, 1.5f);
+
+        });
     }
     private void UpdateCountText()
     {
