@@ -16,15 +16,15 @@ MonoBehaviour:
   rewardNames:
   - UI_icon_chest_standart_nolight
   - UI_icon_cash
-  - ui_icon_mle_bayonet_easter_time
   - UI_icon_chest_Bronze_nolight
-  - UI_Icon_Renders_tier2_rifle
+  - ui_icon_aviator_glasses_easter
+  - ui_icon_helmet_pumpkin
   - UI_icon_chest_small_noligt
   - ui_icon_baseball_cap_easter
   - ui_card_icon_death
   rewardAmount:
-  - x10
-  - x100k
+  - x1
+  - x10k
   - x1
   - x2
   - x1

@@ -20,14 +20,14 @@ MonoBehaviour:
   - UI_icon_chest_Bronze_nolight
   - UI_Icon_Renders_tier2_rifle
   - UI_icon_chest_small_noligt
-  - ui_icon_baseball_cap_easter
+  - UI_Icon_Renders_tier3_sniper
   - UI_icon_chest_silver_nolight
   rewardAmount:
   - x10
+  - x100k
   - x1
+  - x5
   - x1
+  - x10
   - x1
-  - x1
-  - x1
-  - x1
-  - x1
+  - x3

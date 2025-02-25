@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bombIndex: -1
   rewardNames:
-  - UI_icon_chest_standart_nolight
-  - UI_icon_cash
+  - ui_icon_mle_bayonet_summer_vice
+  - UI_icon_gold
   - ui_icon_mle_bayonet_easter_time
-  - UI_icon_chest_Bronze_nolight
-  - UI_Icon_Renders_tier2_rifle
+  - UI_Icon_Renders_tier2_mle
+  - UI_Icon_Renders_tier3_shotgun
   - UI_icon_chest_small_noligt
-  - ui_icon_baseball_cap_easter
-  - UI_icon_chest_silver_nolight
+  - UI_Icon_Renders_tier3_sniper
+  - UI_Icon_Renders_tier3_smg
   rewardAmount:
-  - x10
-  - x1
-  - x1
-  - x1
-  - x1
-  - x1
-  - x1
-  - x1
+  - x5
+  - x1000
+  - x4
+  - x5
+  - x3
+  - x2
+  - x3
+  - x5

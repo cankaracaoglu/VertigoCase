@@ -815,7 +815,9 @@ MonoBehaviour:
   rewardManager: {fileID: 1710160693}
   rewardPanelManager: {fileID: 1005842160}
   countText: {fileID: 1401783552}
-  wheelImage: {fileID: 2058885126}
+  wheel: {fileID: 1723053997}
+  wheelImageBase: {fileID: 2058885126}
+  needleImage: {fileID: 1719699109}
   failPanel: {fileID: 832554446}
   rewardPanel: {fileID: 1005842155}
   bronzeCollection: {fileID: 11400000, guid: 1d861667fc3b73f4e83c0963c4101a2b, type: 2}
@@ -824,6 +826,9 @@ MonoBehaviour:
   bronzeWheel: {fileID: 21300000, guid: c936930005c457742af90903bc9b8b76, type: 3}
   silverWheel: {fileID: 21300000, guid: 0bcf0f0980d8fd5488a90e5b58a6d4b6, type: 3}
   goldWheel: {fileID: 21300000, guid: aa766b9c10269ac4a98e153f24709d18, type: 3}
+  bronzeNeedle: {fileID: 21300000, guid: d9a01e7f5d5ebfe4a8faf34a7f7d82b1, type: 3}
+  silverNeedle: {fileID: 21300000, guid: 8915900eec8a94c44be59a95957972f7, type: 3}
+  goldNeedle: {fileID: 21300000, guid: d53736332e98610448ca5c37592b0ddf, type: 3}
   retryButton: {fileID: 1673747514}
   giveUpButton: {fileID: 628163729}
   moveDuration: 1.5
@@ -1371,10 +1376,10 @@ RectTransform:
   m_Father: {fileID: 1888379196}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -89.251, y: -69.027}
-  m_SizeDelta: {x: 178.502, y: 138.055}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 89.30005, y: -69.027}
+  m_SizeDelta: {x: 178.50195, y: 138.055}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1401783552
 MonoBehaviour:
