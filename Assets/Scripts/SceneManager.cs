@@ -15,6 +15,7 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI countText;
     [SerializeField] private GameObject wheel;
     [SerializeField] private GameObject wheelImageBase;
+    [SerializeField] private GameObject needleImage;
     [SerializeField] private GameObject failPanel;
     [SerializeField] private GameObject rewardPanel;
 
@@ -27,6 +28,11 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private Sprite bronzeWheel;
     [SerializeField] private Sprite silverWheel;
     [SerializeField] private Sprite goldWheel;
+
+    [Header("Niddle Sprites")]
+    [SerializeField] private Sprite bronzeNeedle;
+    [SerializeField] private Sprite silverNeedle;
+    [SerializeField] private Sprite goldNeedle;
 
     [Header("Buttons")]
     [SerializeField] private Button retryButton;
@@ -86,27 +92,28 @@ public class SceneManager : MonoBehaviour
     {
         if (rewardCount % 5 == 0 && rewardCount != 0)
         {
-            AnimateZoneTransition(silverCollection, silverWheel);
+            AnimateZoneTransition(silverCollection, silverWheel,silverNeedle);
 
         }
         else if (rewardCount % 30 == 0 && rewardCount != 0)
         {
-            AnimateZoneTransition(goldCollection, goldWheel);
+            AnimateZoneTransition(goldCollection, goldWheel,goldNeedle);
         }
-        else if (rewardCount % 5 == 1)
+        else if (rewardCount % 5 == 1 && rewardCount != 1)
         {
-            AnimateZoneTransition(bronzeCollection, bronzeWheel);
+            AnimateZoneTransition(bronzeCollection, bronzeWheel,bronzeNeedle);
         }
 
     }
 
-    private void AnimateZoneTransition(RewardCollection collection, Sprite wheelSprite)
+    private void AnimateZoneTransition(RewardCollection collection, Sprite wheelSprite,Sprite needleSprite)
     {
         wheel.transform.DOScale(Vector3.zero, 1.5f).OnComplete(() =>
         {
             rewardManager.rewardCollection = collection;
             rewardManager.AssignRewards();
             wheelImageBase.GetComponent<Image>().sprite = wheelSprite;
+            needleImage.GetComponent<Image>().sprite = needleSprite;
             wheel.transform.DOScale(Vector3.one, 1.5f);
 
         });
