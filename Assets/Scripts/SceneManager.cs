@@ -13,7 +13,8 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private RewardManager rewardManager;
     [SerializeField] private RewardPanelManager rewardPanelManager;
     [SerializeField] private TextMeshProUGUI countText;
-    [SerializeField] private GameObject wheelImage;
+    [SerializeField] private GameObject wheel;
+    [SerializeField] private GameObject wheelImageBase;
     [SerializeField] private GameObject failPanel;
     [SerializeField] private GameObject rewardPanel;
 
@@ -85,21 +86,27 @@ public class SceneManager : MonoBehaviour
     {
         if (rewardCount % 5 == 0 && rewardCount != 0)
         {
-            rewardManager.rewardCollection = silverCollection;
-            rewardManager.AssignRewards();
-            wheelImage.GetComponent<Image>().sprite = silverWheel;
+            wheel.transform.DOScale(Vector3.zero, 1.5f).OnComplete(() =>
+            {
+                rewardManager.rewardCollection = silverCollection;
+                rewardManager.AssignRewards();
+                wheelImageBase.GetComponent<Image>().sprite = silverWheel;
+                wheel.transform.DOScale(Vector3.one, 1.5f);
+                
+            });
+            
         }
         else if (rewardCount % 30 == 0 && rewardCount != 0)
         {
             rewardManager.rewardCollection = goldCollection;
             rewardManager.AssignRewards();
-            wheelImage.GetComponent<Image>().sprite = goldWheel;
+            wheelImageBase.GetComponent<Image>().sprite = goldWheel;
         }
         else
         {
             rewardManager.rewardCollection = bronzeCollection;
             rewardManager.AssignRewards();
-            wheelImage.GetComponent<Image>().sprite = bronzeWheel;
+            wheelImageBase.GetComponent<Image>().sprite = bronzeWheel;
         }
 
     }
@@ -135,7 +142,7 @@ public class SceneManager : MonoBehaviour
                 .Join(copyReward.transform.DOScale(centerScale, moveDuration).SetEase(Ease.InOutQuad));
 
         // Step 2: Move to top (countText position) & scale down
-        sequence.Append(copyReward.transform.DOMove(endPos, moveDuration / 2f).SetEase(Ease.InOutQuad))
+        sequence.Append(copyReward.transform.DOMove(endPos, moveDuration / 2f ).SetEase(Ease.InOutQuad))
                 .Join(copyReward.transform.DOScale(endScale, moveDuration / 2f).SetEase(Ease.InOutQuad));
 
         // Step 3: Destroy the object and update count text
@@ -144,6 +151,7 @@ public class SceneManager : MonoBehaviour
             //Destroy(copyReward);
             UpdateCountText();
             rewardPanelManager.AddReward(copyReward);
+            CheckForState();
         });
 
         // Play the sequence
