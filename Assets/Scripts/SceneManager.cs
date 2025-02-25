@@ -90,7 +90,7 @@ public class SceneManager : MonoBehaviour
 
     public void CheckForState()
     {
-        if (rewardCount % 5 == 0 && rewardCount != 0)
+        if (rewardCount % 5 == 0 && rewardCount != 0 && rewardCount % 30 != 0)
         {
             AnimateZoneTransition(silverCollection, silverWheel,silverNeedle);
 
